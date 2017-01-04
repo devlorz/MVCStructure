@@ -1,5 +1,7 @@
 package com.leeway.mvcstructure.activity;
 
+import android.os.Build;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -20,5 +22,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this,
                 "Width = " + screenWidth + " Height = " + screenHeight,
                 Toast.LENGTH_SHORT).show();
+
+        // seperate by android version
+        if (Build.VERSION.SDK_INT >= 21) {
+            // Run on android 21+
+        } else {
+
+        }
     }
 }
