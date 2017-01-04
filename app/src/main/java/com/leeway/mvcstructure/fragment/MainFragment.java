@@ -18,6 +18,8 @@ public class MainFragment extends Fragment {
 
     int someVar;
 
+    int x, y, z;
+
     TextView tvHello;
 
     public static MainFragment newInstance(int someVar) {
@@ -53,5 +55,19 @@ public class MainFragment extends Fragment {
 
     public void setHelloText(String text) {
         tvHello.setText(text);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // save state here
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // restore state here
+        }
     }
 }
