@@ -4,12 +4,16 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.leeway.mvcstructure.R;
 import com.leeway.mvcstructure.fragment.MainFragment;
+import com.leeway.mvcstructure.fragment.SecondFragment;
 import com.leeway.mvcstructure.util.ScreenUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,5 +56,37 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().findFragmentByTag("MainFragment");
             fragment.setHelloText("Woo Hooooooooooo");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_second_fragment) {
+
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentById(R.id.contentContainer);
+
+            if (fragment instanceof SecondFragment == false) {
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.contentContainer,
+                                SecondFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+
+            Toast.makeText(MainActivity.this,
+                    "Second Fragment",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
