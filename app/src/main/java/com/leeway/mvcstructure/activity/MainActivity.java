@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.leeway.mvcstructure.R;
@@ -45,7 +46,13 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.contentContainer, MainFragment.newInstance(123),"MainFragment")
                     .commit();
 
-
+            SecondFragment secondFragment = SecondFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.contentContainer,
+                            secondFragment,
+                            "SecondFragment")
+                    .detach(secondFragment)
+                    .commit();
         }
     }
 
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             MainFragment fragment = (MainFragment)
                     getSupportFragmentManager().findFragmentByTag("MainFragment");
-            fragment.setHelloText("Woo Hooooooooooo");
+            fragment.setHelloText("Woo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\nWoo Hooooooooooo\n");
         }
     }
 
@@ -67,32 +74,55 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_second_fragment) {
-
-            Fragment fragment = getSupportFragmentManager()
-                    .findFragmentById(R.id.contentContainer);
-
-            if (fragment instanceof SecondFragment == false) {
-
+        switch (item.getItemId()) {
+            case R.id.action_first_tab : {
+                MainFragment mainFragment = (MainFragment)
+                        getSupportFragmentManager().findFragmentByTag("MainFragment");
+                SecondFragment secondFragment = (SecondFragment)
+                        getSupportFragmentManager().findFragmentByTag("SecondFragment");
                 getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(
-                                R.anim.from_right,
-                                R.anim.to_left,
-                                R.anim.from_left,
-                                R.anim.to_right
-                        )
-                        .replace(R.id.contentContainer,
-                                SecondFragment.newInstance())
-                        .addToBackStack(null)
+                        .attach(mainFragment)
+                        .detach(secondFragment)
                         .commit();
-
+                return true;
             }
+            case R.id.action_second_tab : {
+                MainFragment mainFragment = (MainFragment)
+                        getSupportFragmentManager().findFragmentByTag("MainFragment");
+                SecondFragment secondFragment = (SecondFragment)
+                        getSupportFragmentManager().findFragmentByTag("SecondFragment");
+                getSupportFragmentManager().beginTransaction()
+                        .attach(secondFragment)
+                        .detach(mainFragment)
+                        .commit();
+                return true;
+            }
+            case R.id.action_second_fragment : {
+                Fragment fragment = getSupportFragmentManager()
+                        .findFragmentById(R.id.contentContainer);
 
-            Toast.makeText(MainActivity.this,
-                    "Second Fragment",
-                    Toast.LENGTH_SHORT)
-                    .show();
-            return true;
+                if (fragment instanceof SecondFragment == false) {
+
+                    getSupportFragmentManager().beginTransaction()
+                            .setCustomAnimations(
+                                    R.anim.from_right,
+                                    R.anim.to_left,
+                                    R.anim.from_left,
+                                    R.anim.to_right
+                            )
+                            .replace(R.id.contentContainer,
+                                    SecondFragment.newInstance())
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+
+                Toast.makeText(MainActivity.this,
+                        "Second Fragment",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
